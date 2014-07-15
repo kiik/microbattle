@@ -1,0 +1,11 @@
+{
+  "name": "micro-battles",
+  "version": "0.0.1",
+  "description": "my first socket.io app",
+  "dependencies": {},
+  "devDependencies": {
+    "mongoose": "~3.8.13",
+    "express": "~4.6.1",
+    "socket.io": "~1.0.6"
+  }
+}
