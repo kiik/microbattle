@@ -60,19 +60,26 @@ var LobbyManager = function(socket) {
         }
     }
 
-    var viewRoom = function(e, r_id) {
-        console.log(e)
-        console.log(r_id)
-        gui.selectRoom(e, r_id);
+    var viewRoom = function(e) {
+        if(gui.getRoomSelectStatus()) {
+            var r_id = gui.selectRoom(e, r_id);
+            gui.disableRoomSelection();
+            socket.emit("getRoomData", { id: r_id });
+        } else {
+            console.log("[viewRoom]Room selection disabled");
+        }
     }
 
 
     /**************************************************
      ** SOCKET RESPONSE HANDLERS
      **************************************************/
+    function onRoomDataResp(data) {
+        gui.showRoom(data);
+        gui.enableRoomSelection();
+    }
+
     function onRoomListResp(data) {
-        console.log("ROOBNLI")
-        console.log(viewRoom)
         gui.repopulateRoomList(data, viewRoom);
     }
 
@@ -123,7 +130,9 @@ var LobbyManager = function(socket) {
         io.on("loginResp", onLoginResp);
 
         io.on("lobbyClientsResp", onLobbyClientsResp);
-        io.on("roomListResp", onRoomListResp)
+
+        io.on("roomListResp", onRoomListResp);
+        io.on("roomDataResp", onRoomDataResp);
     }
 
     init(socket);

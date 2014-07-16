@@ -2,7 +2,8 @@
 var RoomGUIManager = function() {
     var selRoomElem,
         joinedRoomItem,
-        joinedRoomWindow;
+        joinedRoomWindow,
+        room_select_enabled = true;
 
 
     /**************************************************
@@ -29,6 +30,24 @@ var RoomGUIManager = function() {
     /**************************************************
     ** LOBBY GUI FUNCTIONS
     **************************************************/
+    var showRoom = function(room) {
+        $("#main").html(roomContentTemp(room));
+    }
+
+    var disableRoomSelection = function() {
+        $("#roomList").css("opacity", "0.5");
+        room_select_enabled = false;
+    }
+
+    var enableRoomSelection = function() {
+        $("#roomList").css("opacity", "unset");
+        room_select_enabled = true;
+    }
+
+    var getRoomSelectStatus = function() {
+        return room_select_enabled;
+    }
+
     var setJoinedRoom = function() {
 
     }
@@ -36,7 +55,7 @@ var RoomGUIManager = function() {
     var selectRoom = function(e, id) {
         var elem,
             tar = $(e.target);
-
+        testvar = e;
         if(tar.hasClass("clickable")) {
             elem = tar;
         } else {
@@ -50,6 +69,8 @@ var RoomGUIManager = function() {
             elem.addClass("item-selected");
             selRoomElem = elem;
         }
+
+        return selRoomElem.prop("id");
     }
 
     var repopulateRoomList = function(rooms, callback) {
@@ -60,7 +81,7 @@ var RoomGUIManager = function() {
                 var room = rooms[i];
                 html = $(roomEntryTemp(room));
                 html.click(function(e) {
-                    callback(e, room._id);
+                    callback(e);
                 });
                 room_list.append(html);
             }
@@ -99,5 +120,9 @@ var RoomGUIManager = function() {
         repopulateRoomList: repopulateRoomList,
         selectRoom: selectRoom,
         setJoinedRoom: setJoinedRoom,
+        disableRoomSelection: disableRoomSelection,
+        enableRoomSelection: enableRoomSelection,
+        getRoomSelectStatus: getRoomSelectStatus,
+        showRoom: showRoom,
     }
 }

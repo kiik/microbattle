@@ -10,7 +10,7 @@ var RoomService = function(app, io) {
         });
     }
 
-    var onRoomListRequest = function() {
+    var onRoomListReq = function() {
         var id = this.id;
         models.Room.find().exec(function(err, rooms) {
             if(err) {util.log(err);return [];}
@@ -18,8 +18,19 @@ var RoomService = function(app, io) {
         });
     };
 
+    var onRoomDataReq = function(data) {
+        var id = this.id;
+        if(data.id) {
+            models.Room.findOne({ _id: data.id }).exec(function(err, room) {
+                if(err) {util.log(err);return [];}
+                io.to(id).emit("roomDataResp", room);
+            });
+        }
+    };
+
     this.registerHandlers = function(client) {
-        client.on("getRoomList", onRoomListRequest);
+        client.on("getRoomList", onRoomListReq);
+        client.on("getRoomData", onRoomDataReq);
     };
 
     var init = function() {

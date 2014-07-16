@@ -31,6 +31,7 @@
 
         <div class="nav-inner">
             <button class="primary-button pure-button" style="font-size:14px;">Create Game</button>
+            <button class="primary-button pure-button" style="font-size:13px;">Return To Room</button>
 
             <div class="pure-menu pure-menu-open" style="font-size:14px;">
                 <ul>
@@ -97,26 +98,26 @@
 </div>
 </script>
 
-<script id="view-room-template" type="text/x-doT-template">
+<script id="room-content-template" type="text/x-doT-template">
 <div class="email-content">
     <div class="email-content-header pure-g">
         <div class="pure-u-1-2">
-            <h1 id="roomName" class="email-content-title">{{=room.name}}</h1>
+            <h1 id="roomName" class="email-content-title">{{=it.name}}</h1>
             <p id="selRoomStatus" class="email-content-subtitle">
-            Created by <a>{{=room.ownerId}}</a> at <span>x:xxpm, April x, 2014</span>
+            Created by <a>{{=it.ownerId}}</a> at <span>x:xxpm, April x, 2014</span>
             </p>
         </div>
 
         <div class="email-content-controls pure-u-1-2">
             <button onclick="room_manager.join("{{=it._id}}");" class="secondary-button pure-button joinBtn">Join Room</button>
-            <button class="secondary-button pure-button">Mark Room</button>
-            <button class="secondary-button pure-button">Hide Room</button>
+            <button class="secondary-button pure-button">Mark</button>
+            <button class="secondary-button pure-button">Leave</button>
         </div>
     </div>
     <div id="selRoomContent" class="email-content-body">
-        1.Pl
-        2.Meelik
-        3.Ubernoober
+        {{ for(var i=0;i<it.players.length;i++) { }}
+        {{=i}}.{{=it.players[i].name}}
+        {{ } }}
     </div>
 </div>
 </script>
@@ -125,6 +126,8 @@
 
 <script>
     var roomEntryTemp = doT.template($("#room-entry-template").prop("innerHTML"));
+    var roomContentTemp = doT.template($("#room-content-template").prop("innerHTML"));
+
     var d = { id:"-1", host_name:"HOSTNAME", name:"JOIN2v2", desc:"RandSeed, NoLimit, Plague Enabled"}
     var demo_room_data = [d, d, d, d, d, d, d, d, d];
 
@@ -133,7 +136,7 @@
 <script src="/socket.io/socket.io.js"></script>
 <script src="js/Player.js"></script>
 
-<script src="js/RoomGUIManager.js"></script>
+<script src="js/LobbyGUIManager.js"></script>
 <script src="js/LobbyManager.js"></script>
 
 <script src="js/game.js"></script>
