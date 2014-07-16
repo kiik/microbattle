@@ -1,7 +1,35 @@
-body {
-	overflow: hidden;
+.joined-room {
+    background: lightcyan;
+    border-left: 5px solid green !important;
+    border-radius: 15px;
 }
 
-canvas {
-	display: block;
+.item-selected {
+    background: #eee;
+    border-left: 5px solid rgba(0, 78, 104, 1);;
+    border-radius: 15px;
 }
+
+.loginContainer {
+    margin: 0 auto;
+    width: 25%;
+}
+
+.clickable {
+    cursor:pointer;
+    -moz-user-select: -moz-none;
+    -khtml-user-select: none;
+    -webkit-user-select: none;
+
+    /*
+     *      Introduced in IE 10.
+     *           See http://ie.microsoft.com/testdrive/HTML5/msUserSelect/
+     *              */
+    -ms-user-select: none;
+    user-select: none;
+}
+
+.clickable:hover {
+    background-color:#eee;
+}
+

@@ -40,9 +40,9 @@ a {
 
 /*
  * -- LAYOUT STYLES --
- * This layout consists of three main elements, `#nav` (navigation bar), `#list` (email list), and `#main` (email content). All 3 elements are within `#layout`
+ * This layout consists of three main elements, `#nav` (navigation bar), `#list` (email list), and `#main` (email content). All 3 elements are within `#lobbyGUI`
  */
-#layout, #nav, #list, #main {
+#lobbyGUI, #nav, #roomList, #main {
     margin: 0;
     padding: 0;
 }
@@ -154,9 +154,7 @@ a {
         margin: 0.4em 0;
     }
 
-.email-item-selected {
-    background: #eee;
-}
+
 .email-item-unread {
     border-left: 6px solid #1b98f8;
 }
@@ -202,20 +200,20 @@ a {
 @media (min-width: 40em) {
 
     /* Move the layout over so we can fit the nav + list in on the left */
-    #layout {
+    #lobbyGUI {
         padding-left:500px; /* "left col (nav + list)" width */
         position: relative;
     }
 
     /* These are position:fixed; elements that will be in the left 500px of the screen */
-    #nav, #list {
+    #nav, #roomList {
         position: fixed;
         top: 0;
         bottom: 0;
         overflow: auto;
     }
     #nav {
-        /*margin-left:-500px; /* "left col (nav + list)" width */
+        margin-left:-500px; /* "left col (nav + list)" width */
         width:150px;
         height: 100%;
     }
@@ -231,8 +229,8 @@ a {
         display: none;
     }
 
-    #list {
-        /*margin-left: -350px;*/
+    #roomList {
+        margin-left: -350px;
         width: 100%;
         height: 33%;
         border-bottom: 1px solid #ddd;
@@ -258,8 +256,8 @@ a {
 @media (min-width: 60em) {
 
     /* This will take up the entire height, and be a little thinner */
-    #list {
-        margin-left: 150px;
+    #roomList {
+        margin-left: -350px;
         width:350px;
         height: 100%;
         border-right: 1px solid #ddd;
