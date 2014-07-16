@@ -60,12 +60,20 @@ var LobbyManager = function(socket) {
         }
     }
 
+    var viewRoom = function(e, r_id) {
+        console.log(e)
+        console.log(r_id)
+        gui.selectRoom(e, r_id);
+    }
+
 
     /**************************************************
      ** SOCKET RESPONSE HANDLERS
      **************************************************/
     function onRoomListResp(data) {
-        gui.repopulateRoomList(data);
+        console.log("ROOBNLI")
+        console.log(viewRoom)
+        gui.repopulateRoomList(data, viewRoom);
     }
 
     function onLobbyClientsResp(data) {

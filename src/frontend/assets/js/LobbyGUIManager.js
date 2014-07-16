@@ -1,43 +1,58 @@
 
 var RoomGUIManager = function() {
-    var selRoomElem;
+    var selRoomElem,
+        joinedRoomItem,
+        joinedRoomWindow;
+
+
+    /**************************************************
+    ** MISCELLANEOUS GUI FUNCTIONS
+    **************************************************/
+    var showDisconnect = function() {
+        this.hideAll();
+    }
 
     var hideAll = function() {
-        $("#lobbyGUI").hide();
-        $("#loginForm").hide();
+        $("#lobbyGUI:visible, #loginForm:visible").hide();
     }
 
-    var displayLobby = function() {
-        this.hideAll();
-        $("#lobbyGUI").show();
-    }
 
-    var disableLobbyGUI = function() {
-        this.hideAll();
-        $("#lobbyGUI").hide();
-    }
-
+    /**************************************************
+    ** UNAUTHENTICATED STATUS GUI FUNCTIONS
+    **************************************************/
     var showLoginForm = function() {
         this.hideAll();
         $("#loginForm").show();
     }
 
+
+    /**************************************************
+    ** LOBBY GUI FUNCTIONS
+    **************************************************/
+    var setJoinedRoom = function() {
+
+    }
+
     var selectRoom = function(e, id) {
         var elem,
             tar = $(e.target);
+
         if(tar.hasClass("clickable")) {
             elem = tar;
         } else {
             elem = tar.parents(".email-item");
         }
-        if(selRoomElem) {
-            selRoomElem.removeClass("item-selected");
+
+        if(selRoomElem!=elem) {
+            if(selRoomElem) {
+                selRoomElem.removeClass("item-selected");
+            }
+            elem.addClass("item-selected");
+            selRoomElem = elem;
         }
-        elem.addClass("item-selected");
-        selRoomElem = elem;
     }
 
-    var repopulateRoomList = function(rooms) {
+    var repopulateRoomList = function(rooms, callback) {
         var room_list = $("#roomList");
         room_list.html("");
         if(rooms.length>0) {
@@ -45,7 +60,7 @@ var RoomGUIManager = function() {
                 var room = rooms[i];
                 html = $(roomEntryTemp(room));
                 html.click(function(e) {
-                    selectRoom(e, room.id);
+                    callback(e, room._id);
                 });
                 room_list.append(html);
             }
@@ -63,9 +78,16 @@ var RoomGUIManager = function() {
         }
     }
 
-    var showDisconnect = function() {
+    var displayLobby = function() {
         this.hideAll();
+        $("#lobbyGUI").show();
     }
+
+    var disableLobbyGUI = function() {
+        this.hideAll();
+        $("#lobbyGUI").hide();
+    }
+
 
     return {
         hideAll: hideAll,
@@ -75,5 +97,7 @@ var RoomGUIManager = function() {
         showDisconnect: showDisconnect,
         updateLobbyClientList: updateLobbyClientList,
         repopulateRoomList: repopulateRoomList,
+        selectRoom: selectRoom,
+        setJoinedRoom: setJoinedRoom,
     }
 }
