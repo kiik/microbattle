@@ -43,6 +43,7 @@ var setEventHandlers = function() {
     socket.on("disconnect", onSocketDisconnect);
     socket.on("loginResponse", onLoginResp);
     socket.on("lobbyClientsResponse", onClientsResponse);
+    socket.on("roomListResp", onRoomListResponse);
     //socket.on("remove player", onRemovePlayer);
 
 };
@@ -51,8 +52,17 @@ function onClientsResponse(data) {
     console.log(data);
     room_manager.updateLobbyClientList(data);
 }
+
 function getLobbyClients() {
     socket.emit("getLobbyClients");
+}
+
+function onRoomListResponse(data) {
+    room_manager.repopulateRoomList(data);
+}
+
+function getRoomList() {
+    socket.emit("getRoomList");
 }
 
 function startLogin() {
@@ -68,6 +78,7 @@ function onLoginResp(data) {
         if(data.success) {
             room_manager.enableLobbyGUI();
             getLobbyClients();
+            getRoomList();
             return;
         } else {
             console.log(data.msg);

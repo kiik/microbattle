@@ -1,4 +1,5 @@
 var util = require("util"),
+    services = require("../services");
     Player = require("./Player").Player;
 
 var PlayerService = function(app, io) {
@@ -23,6 +24,7 @@ var PlayerService = function(app, io) {
         }
 
         if(!pl.doLogin(data)) {
+            services.room_s.registerHandlers(this);
             io.to(this.id).emit("loginResponse", { success: true, msg: "" });
             return;
         } else {
@@ -76,7 +78,7 @@ var PlayerService = function(app, io) {
         io.on("connection", onIOConnection);
     };
 
-    init(io)
+    init(io);
     util.log("Initialized PlayerService");
     return this
 }

@@ -1,15 +1,19 @@
 var PlayerService = require("./players/players").PlayerService;
 var RoomService = require("./rooms/rooms").RoomService;
 
-var ServiceManager = function(app, io) {
-    var pl_man = PlayerService(app, io),
-        r_man = RoomService(app, io);
+var player_s, room_s;
 
-    return {
-        player_s : pl_man,
-        room_s : r_man,
-    }
-};
+function init_services(app, io) {
+    console.log("[services]Initializing services.");
 
-exports.ServiceManager = ServiceManager
+    player_s = PlayerService(app, io);
+    room_s = RoomService(app, io);
+
+    exports.player_s = player_s;
+    exports.room_s = room_s;
+}
+
+exports.init_services = init_services;
+exports.player_s = player_s;
+exports.room_s = room_s;
 

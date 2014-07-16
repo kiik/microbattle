@@ -1,30 +1,32 @@
-var mongo = require('mongodb');
-mongo.connect('mongodb://0.0.0.0:27017/test')
+var util = require("util"),
+    express = require("express"),
+    app = express(),
+    http = require('http').Server(app),
+    io = require("socket.io")(http),
 
-var db = mongoose.connection, models_loaded = false;
+    //Application Modules
+    models = require("./models"),
+    services = require("./services");
 
-var roomSchema = mongoose.Schema({
-       room: { type: String, index: true },
-       status: String,
-       numPlayers: Number,
+var s_man;
 
-       //players: [mongoose.Schema({
-       //      id: String,
-       //      name: String,
-        //     status: String
-        //      }, { _id: false })]
-
+//******************
+app.get('/', function(req, res){
+      res.sendfile(__dirname+'/frontend/templates/index.html');
 });
 
-exports.db = db
-exports.models_loaded = models_loaded;
+//app.use(express.compress());
+app.use(express.static(__dirname+"/frontend/assets", { maxAge: 1000 }));
 
-db.on('error', console.error.bind(console, 'connection error:'));
-db.once('open', function callback () {
-    console.log("[core]Database connection open. Loading models...");
-    Room = mongoose.model("Room", roomSchema);
-    console.log(Room);
-    exports.Room = Room
-    exports.models_loaded = true;
-});
+
+function init() {
+    services.init_services(app, io);
+
+    console.log("init() fin.");
+};
+
+
+init();
+
+exports.http = http
 
