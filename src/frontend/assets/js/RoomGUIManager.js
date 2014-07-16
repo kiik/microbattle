@@ -1,13 +1,13 @@
 
 var RoomGUIManager = function() {
-
+    var selRoomElem;
 
     var hideAll = function() {
         $("#lobbyGUI").hide();
         $("#loginForm").hide();
     }
 
-    var enableLobbyGUI = function() {
+    var displayLobby = function() {
         this.hideAll();
         $("#lobbyGUI").show();
     }
@@ -22,21 +22,30 @@ var RoomGUIManager = function() {
         $("#loginForm").show();
     }
 
+    var selectRoom = function(e, id) {
+        var elem,
+            tar = $(e.target);
+        if(tar.hasClass("clickable")) {
+            elem = tar;
+        } else {
+            elem = tar.parents(".email-item");
+        }
+        if(selRoomElem) {
+            selRoomElem.removeClass("item-selected");
+        }
+        elem.addClass("item-selected");
+        selRoomElem = elem;
+    }
+
     var repopulateRoomList = function(rooms) {
-        console.log(rooms);
         var room_list = $("#roomList");
         room_list.html("");
         if(rooms.length>0) {
             for(var i=0;i<rooms.length;i++) {
                 var room = rooms[i];
-                var html = '<div class="email-item clickable pure-g"><div class="pure-u-3-4"><h5 class="email-name">';
-                html+=rooms.ownerId;
-                html+='</h5><h4 class="email-subject">'+room.name+'</h4>';
-                html+='<p class="email-desc">'+room.players+'</p>';
-                html+='</div></div>';
-                html = $(html);
+                html = $(roomEntryTemp(room));
                 html.click(function(e) {
-                    onRoomSelect(e, room.id);
+                    selectRoom(e, room.id);
                 });
                 room_list.append(html);
             }
@@ -60,7 +69,7 @@ var RoomGUIManager = function() {
 
     return {
         hideAll: hideAll,
-        enableLobbyGUI: enableLobbyGUI,
+        displayLobby: displayLobby,
         disableLobbyGUI: disableLobbyGUI,
         showLoginForm: showLoginForm,
         showDisconnect: showDisconnect,

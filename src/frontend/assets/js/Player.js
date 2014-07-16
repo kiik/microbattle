@@ -1,16 +1,19 @@
 /**************************************************
-** GAME PLAYER CLASS
+** CONNECTION USER CLASS
 **************************************************/
-var Player = function() {
-    var id, name;
+var User = function(id, name) {
+    this.id = null;
+    this.name = null;
 
-    function getLoginData() {
+    this.getLoginData = function() {
         return { name: this.name }
     }
 
-	return {
-		id: id,
-        name: name,
-        getLoginData: getLoginData
-	}
+    function init(id, name) {
+        this.id = id;
+        this.name = name;
+    }
+
+    init(id, name);
 };
+

@@ -25,10 +25,10 @@ var PlayerService = function(app, io) {
 
         if(!pl.doLogin(data)) {
             services.room_s.registerHandlers(this);
-            io.to(this.id).emit("loginResponse", { success: true, msg: "" });
+            io.to(this.id).emit("loginResp", { success: true, msg: "" });
             return;
         } else {
-            io.to(this.id).emit("loginResponse", { success: false, msg: "Unknown Error" })
+            io.to(this.id).emit("loginResp", { success: false, msg: "Unknown Error" })
         }
     }
 
@@ -53,7 +53,7 @@ var PlayerService = function(app, io) {
                 _players.push(players[i].name);
             }
         }
-        io.to(this.id).emit("lobbyClientsResponse", _players);
+        io.to(this.id).emit("lobbyClientsResp", _players);
     };
 
     var onIOConnection = function(c) { // :param c: client object

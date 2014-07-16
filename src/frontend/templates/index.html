@@ -87,26 +87,54 @@
 <script src="http://yui.yahooapis.com/3.17.2/build/yui/yui-min.js"></script>
 <script src="http://code.jquery.com/jquery-latest.min.js" type="text/javascript"></script>
 
+<script id="room-entry-template" type="text/x-doT-template">
+<div id="{{=it._id}}" class="email-item pure-g clickable">
+    <div class="pure-u-3-4">
+        <h5 class="email-name">{{=it._id}}</h5>
+        <h4 class="email-subject">{{=it.name}}</h4>
+        <p class="email-desc">{{~it.players :v:i}}{{=v.name}}, {{~}}</p>
+    </div>
+</div>
+</script>
+
+<script id="view-room-template" type="text/x-doT-template">
+<div class="email-content">
+    <div class="email-content-header pure-g">
+        <div class="pure-u-1-2">
+            <h1 id="roomName" class="email-content-title">{{=room.name}}</h1>
+            <p id="selRoomStatus" class="email-content-subtitle">
+            Created by <a>{{=room.ownerId}}</a> at <span>x:xxpm, April x, 2014</span>
+            </p>
+        </div>
+
+        <div class="email-content-controls pure-u-1-2">
+            <button onclick="room_manager.join("{{=it._id}}");" class="secondary-button pure-button joinBtn">Join Room</button>
+            <button class="secondary-button pure-button">Mark Room</button>
+            <button class="secondary-button pure-button">Hide Room</button>
+        </div>
+    </div>
+    <div id="selRoomContent" class="email-content-body">
+        1.Pl
+        2.Meelik
+        3.Ubernoober
+    </div>
+</div>
+</script>
+
+<script src="js/doT.min.js"></script>
+
 <script>
+    var roomEntryTemp = doT.template($("#room-entry-template").prop("innerHTML"));
     var d = { id:"-1", host_name:"HOSTNAME", name:"JOIN2v2", desc:"RandSeed, NoLimit, Plague Enabled"}
     var demo_room_data = [d, d, d, d, d, d, d, d, d];
 
-    function onRoomSelect(e, id) {
-        var elem,
-            tar = $(e.target);
-        console.log(tar)
-        if(tar.hasClass("clickable")) {
-            elem = tar;
-        } else {
-            elem = tar.parents(".email-item");
-        }
-        elem.addClass("item-selected")
-    }
 </script>
 
-<script src="http://localhost:8000/socket.io/socket.io.js"></script>
+<script src="/socket.io/socket.io.js"></script>
 <script src="js/Player.js"></script>
+
 <script src="js/RoomGUIManager.js"></script>
+<script src="js/RoomManager.js"></script>
 
 <script src="js/game.js"></script>
 
